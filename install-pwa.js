@@ -1,99 +1,152 @@
+/* -------------------------------------------------------
+   PWA INSTALL CONTROLLER — CLEAN VERSION  
+   Works correctly for:
+   - Android Chrome (native install prompt)
+   - iOS Safari (manual popup ONLY on click)
+   - Desktop Chrome (no auto UI)
+   - Firefox (manual instructions)
+------------------------------------------------------- */
+
 let deferredPrompt = null;
-let hasShownIosPrompt = false;
+let isInstalled = false;
 
-const iosPrompt = document.getElementById('iosPrompt');
+const installButton = document.getElementById("installButton");
+const iosPrompt = document.getElementById("iosPrompt");
 
-// Detect iOS (iPhone/iPad) — only these get the popup
-function isIOS() {
-  return /iPhone|iPad|iPod/.test(navigator.userAgent) && !window.MSStream;
+// Detect platforms
+const isiOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+const isFirefox = /Firefox/.test(navigator.userAgent);
+
+// Detect if already installed
+function isAlreadyInstalled() {
+  return (
+    window.navigator.standalone === true || 
+    window.matchMedia("(display-mode: standalone)").matches
+  );
 }
 
-// Detect if already running as installed app
-function isStandalone() {
-  return window.navigator.standalone === true || 
-         window.matchMedia('(display-mode: standalone)').matches;
-}
-
+// Update the install button visibility
 function updateInstallUI() {
-  console.log("PWA Debug: Updating UI...", {
+  const standalone = isAlreadyInstalled();
+
+  console.log("PWA Debug: updateInstallUI()", {
     isInstalled,
-    standalone: isAlreadyInstalled(),
+    standalone,
     deferredPrompt
   });
 
-  const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
-
-  // If installed → hide everything
-  if (isInstalled || isAlreadyInstalled()) {
-    document.querySelectorAll(".install-trigger").forEach(el => el.style.display = "none");
+  // Hide if installed
+  if (isInstalled || standalone) {
+    installButton.style.display = "none";
+    iosPrompt.style.display = "none";
     return;
   }
 
-  // ANDROID / CHROME: Only show button when beforeinstallprompt fired
-  if (!isIOS && deferredPrompt) {
+  // ANDROID / CHROME — Show only when beforeinstallprompt happens
+  if (!isiOS && !isFirefox && deferredPrompt) {
     installButton.style.display = "block";
     return;
   }
 
-  // iOS: NEVER show automatically
-  // Only show on user’s explicit click
-  if (isIOS) {
-    installButton.style.display = "block"; // small button, manual
-    iosPrompt.style.display = "none"; // never show automatically
+  // iOS — Show install button (but NOT the popup)
+  if (isiOS) {
+    installButton.style.display = "block";
+    iosPrompt.style.display = "none";
     return;
   }
 
-  // Otherwise (desktop browsers, unsupported browsers): hide
+  // Firefox — Show button (manual instructions)
+  if (isFirefox) {
+    installButton.style.display = "block";
+    return;
+  }
+
+  // Desktop Chrome / others — hide
   installButton.style.display = "none";
 }
 
-
-// Save the native install prompt (Chrome/Android/Edge)
-window.addEventListener('beforeinstallprompt', (e) => {
-  console.log('PWA: beforeinstallprompt fired (Chrome/Android)');
+/* -------------------------------------------------------
+   BEFOREINSTALLPROMPT — Android/Chrome ONLY
+------------------------------------------------------- */
+window.addEventListener("beforeinstallprompt", (e) => {
+  console.log("PWA Debug: beforeinstallprompt fired");
   e.preventDefault();
   deferredPrompt = e;
+
   updateInstallUI();
 });
 
-// Main install trigger — used by ALL buttons/links
-function triggerInstall() {
-  console.log('PWA: Install triggered');
+/* -------------------------------------------------------
+   APP INSTALLED
+------------------------------------------------------- */
+window.addEventListener("appinstalled", () => {
+  console.log("PWA Debug: appinstalled fired!");
+  isInstalled = true;
+  updateInstallUI();
+});
 
-  // iOS: Show custom popup (only once per session)
-  if (isIOS() && !isStandalone()) {
-    if (!hasShownIosPrompt) {
-      iosPrompt.style.display = 'flex';
-      hasShownIosPrompt = true;
-    }
+/* -------------------------------------------------------
+   USER CLICKED INSTALL BUTTON
+------------------------------------------------------- */
+function triggerInstall() {
+  console.log("PWA Debug: triggerInstall()");
+
+  // iOS — Show custom popup
+  if (isiOS) {
+    console.log("PWA Debug: iOS detected → showing manual popup");
+    iosPrompt.style.display = "flex";
     return;
   }
 
-  // Chrome/Android/Edge: Native install
+  // Firefox — no native install prompt
+  if (isFirefox) {
+    console.log("PWA Debug: Firefox → showing instructions");
+    alert(
+      "Firefox Install:\n\n" +
+      "1. Tap the menu button (⋮)\n" +
+      '2. Select "Install" or "Add to Home Screen"\n' +
+      "3. App will appear on your home screen"
+    );
+    return;
+  }
+
+  // Chrome/Android — native install
   if (deferredPrompt) {
+    console.log("PWA Debug: Showing native install prompt");
     deferredPrompt.prompt();
+
     deferredPrompt.userChoice.then((choice) => {
-      if (choice.outcome === 'accepted') {
-        console.log('PWA: Installed!');
+      console.log("PWA Debug: User choice:", choice.outcome);
+
+      if (choice.outcome === "accepted") {
+        isInstalled = true;
       }
+
       deferredPrompt = null;
+      updateInstallUI();
     });
+  } else {
+    console.log("PWA Debug: No prompt available");
+    alert("Install unavailable. Try refreshing the page.");
   }
 }
 
-// Close iOS popup
+/* -------------------------------------------------------
+   iOS POPUP CLOSE BUTTON
+------------------------------------------------------- */
 function hideIosPrompt() {
-  iosPrompt.style.display = 'none';
+  console.log("PWA Debug: hideIosPrompt()");
+  iosPrompt.style.display = "none";
 }
 
-// On page load
-window.addEventListener('load', () => {
-  console.log('PWA: Page loaded');
+/* -------------------------------------------------------
+   INIT
+------------------------------------------------------- */
+window.addEventListener("load", () => {
+  console.log("PWA Debug: Page loaded → updating install UI");
   updateInstallUI();
 });
 
-// Hide everything after actual install
-window.addEventListener('appinstalled', () => {
-  console.log('PWA: appinstalled event');
-  document.querySelectorAll('.install-trigger').forEach(el => el.style.display = 'none');
-});
+// Expose functions
+window.triggerInstall = triggerInstall;
+window.hideIosPrompt = hideIosPrompt;
