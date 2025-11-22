@@ -2,7 +2,7 @@ let deferredPrompt;
 const installButton = document.getElementById('installButton');
 const iosPrompt = document.getElementById('iosPrompt');
 
-window.addEventListener('beforeinstallprompt', e => {
+window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
   if (installButton) installButton.style.display = 'block';
@@ -11,14 +11,17 @@ window.addEventListener('beforeinstallprompt', e => {
 function installApp() {
   if (deferredPrompt) {
     deferredPrompt.prompt();
-    deferredPrompt.userChoice.then(() => {
+    deferredPrompt.userChoice.then((choiceResult) => {
+      if (choiceResult.outcome === 'accepted') {
+        console.log('PWA installed!');
+      }
       deferredPrompt = null;
       if (installButton) installButton.style.display = 'none';
     });
   }
 }
 
-// iOS detection
+// iOS Detection
 function isIOS() {
   return /iPhone|iPad|iPod/.test(navigator.userAgent) && !window.MSStream;
 }
@@ -26,13 +29,16 @@ function isIOS() {
 if (isIOS() && !window.navigator.standalone) {
   setTimeout(() => {
     if (iosPrompt) iosPrompt.style.display = 'flex';
-  }, 4000);
+  }, 3000);
 }
 
 function hideIosPrompt() {
   if (iosPrompt) iosPrompt.style.display = 'none';
 }
 
+// Show button on load (non-iOS)
 window.addEventListener('load', () => {
-  if (installButton && !isIOS()) installButton.style.display = 'block';
+  if (!isIOS() && installButton) {
+    installButton.style.display = 'block';
+  }
 });
