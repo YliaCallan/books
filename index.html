@@ -250,12 +250,21 @@
             text-align: center;
             border-top: 1px solid rgba(0,234,255,0.15);
         }
-        .socials {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin: 1.5rem 0;
-        }
+        
+.socials {
+    display: flex;
+    justify-content: center; /* Centers items along the main (vertical) axis */
+    align-items: center;     /* Centers items along the cross (horizontal) axis */
+    flex-direction: column;  /* Stack items vertically */
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+    width: 100%; /* Ensure it spans the full width of the page */
+}
+
+/* Optional: Add text alignment to the h2 to ensure its text is centered within its own box */
+.socials h2 {
+    text-align: center;
+}
         .socials svg {
             width: 28px;
             height: 28px;
@@ -391,7 +400,7 @@
         
             <!-- SOCIAL SHARE BAR – NOW PERFECT -->
 
-    <button id="shareBtn" class="share-button">Share</button>
+    <button class="share-button">Share</button>
 
         <section class="gallery" id="catalogue">
             <h2>Catalogue</h2>
@@ -399,7 +408,7 @@
         </section>
     </main>
     
-    <button id="shareBtn" class="share-button">Share</button>
+    <button class="share-button">Share</button>
 
     
         <section class="socials" id="socials">
