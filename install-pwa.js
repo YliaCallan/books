@@ -1,44 +1,61 @@
 let deferredPrompt;
+let isInstalled = false;
+
 const installButton = document.getElementById('installButton');
 const iosPrompt = document.getElementById('iosPrompt');
 
+// Check if already installed (PWA or iOS standalone)
+function checkIfInstalled() {
+  const isStandalone = window.navigator.standalone || 
+                       window.matchMedia('(display-mode: standalone)').matches;
+  if (isStandalone || isInstalled) {
+    installButton.style.display = 'none';
+  }
+}
+
+// Android/Chrome/Edge/Firefox install prompt
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  if (installButton) installButton.style.display = 'block';
+  installButton.style.display = 'block';
 });
 
-function installApp() {
-  if (deferredPrompt) {
+// Button click → Android installs, iOS shows instructions
+function showInstallPrompt() {
+  if (!installButton) return;
+
+  // iOS: show custom instructions
+  if (/iPhone|iPad|iPod/.test(navigator.userAgent) && !window.MSStream) {
+    iosPrompt.style.display = 'flex';
+  } 
+  // Android/Desktop: trigger native install
+  else if (deferredPrompt) {
     deferredPrompt.prompt();
-    deferredPrompt.userChoice.then((choiceResult) => {
-      if (choiceResult.outcome === 'accepted') {
-        console.log('PWA installed!');
+    deferredPrompt.userChoice.then((choice) => {
+      if (choice.outcome === 'accepted') {
+        isInstalled = true;
+        installButton.style.display = 'none';
       }
       deferredPrompt = null;
-      if (installButton) installButton.style.display = 'none';
     });
   }
 }
 
-// iOS Detection
-function isIOS() {
-  return /iPhone|iPad|iPod/.test(navigator.userAgent) && !window.MSStream;
-}
-
-if (isIOS() && !window.navigator.standalone) {
-  setTimeout(() => {
-    if (iosPrompt) iosPrompt.style.display = 'flex';
-  }, 3000);
-}
-
+// Close iOS popup
 function hideIosPrompt() {
-  if (iosPrompt) iosPrompt.style.display = 'none';
+  iosPrompt.style.display = 'none';
 }
 
-// Show button on load (non-iOS)
+// Run on load
 window.addEventListener('load', () => {
-  if (!isIOS() && installButton) {
-    installButton.style.display = 'block';
+  checkIfInstalled();
+  if (!isInstalled) {
+    installButton.style.display = 'block';  // Always show button unless already installed
   }
+});
+
+// Also hide button when app is launched in installed mode
+window.addEventListener('appinstalled', () => {
+  isInstalled = true;
+  installButton.style.display = 'none';
 });
