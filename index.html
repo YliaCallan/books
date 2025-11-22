@@ -777,19 +777,18 @@ document.getElementById("logoShare").addEventListener("click", async () => {
 </script>
 
 <script>
-// Auto-close mobile menu on link click — works with 99% of menus
-document.addEventListener('click', function(e) {
-  if (e.target.closest('a') && e.target.getAttribute('href')) {
-    // Close checkbox menus
-    const checkbox = document.querySelector('input[type="checkbox"]:checked');
-    if (checkbox && checkbox.id.toLowerCase().includes('menu')) {
-      checkbox.checked = false;
-    }
-    // Close class-based menus
-    document.querySelectorAll('.mobile-menu, nav, .menu').forEach(el => {
-      el.classList.remove('open', 'active', 'show', 'visible');
+// Auto-close mobile menu when any link is clicked
+document.querySelectorAll('#mobile-menu a, .mobile-menu a, nav a, .menu a').forEach(link => {
+  link.addEventListener('click', () => {
+    // Find and uncheck the mobile menu checkbox/toggle
+    const checkbox = document.querySelector('#menu-toggle, #mobile-menu-toggle, input[type="checkbox"][id*="menu"]');
+    if (checkbox) checkbox.checked = false;
+    
+    // Also close any menu with class "open" or "active"
+    document.querySelectorAll('.mobile-menu, .menu, nav').forEach(menu => {
+      menu.classList.remove('open', 'active', 'show');
     });
-  }
+  });
 });
 </script>
 
