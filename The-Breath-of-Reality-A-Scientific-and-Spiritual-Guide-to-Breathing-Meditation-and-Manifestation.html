@@ -231,34 +231,17 @@
   justify-content: center;
   align-items: center;
   gap: 2rem;
-  flex-wrap: wrap;           /* Allows wrapping on small screens */
+  flex-wrap: wrap;
   margin: 1rem 0;
   width: 100%;
 }
 
-.social-row a {
-  color: var(--cyan);
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  white-space: nowrap;
+/* Make sure BUTTONS also get centered (this was missing!) */
+.social-row button {
+  margin: 0 auto !important;
+  display: block !important;
 }
 
-.social-row a:hover {
-  opacity: 0.8;
-  text-shadow: var(--cyan-glow);
-  transform: translateY(-2px);
-}
-
-/* Optional: tighter spacing on very small phones */
-@media (max-width: 480px) {
-  .social-row {
-    gap: 1.5rem;
-    font-size: 1rem;
-  }
-}
-        
-        
 .copy-link {
   background: transparent;
   border: 2px solid var(--cyan);
@@ -269,6 +252,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.95rem;
+  white-space: nowrap;
 }
 
 .copy-link:hover {
@@ -277,20 +261,12 @@
   box-shadow: 0 0 20px rgba(0,234,255,0.5);
 }
 
-/* Mobile responsive */
 @media (max-width: 768px) {
   .copy-link {
     width: 100%;
     max-width: 220px;
   }
 }
-
-.copy-link-row {
-  width: 100%;
-  justify-content: center !important;
-  gap: 12px;
-}
-
         
     </style>
 </head>
@@ -449,7 +425,7 @@
     <!-- NEW: Simple Copy Link button -->
 
 <div class="social-row">
-  <button id="copyLinkBtn" class="copy-link">Copy Page Link 🔗</button>
+  <button id="copyLinkBtn" class="copy-link">Copy Link 🔗</button>
   <span id="copyFeedback" style="margin-left:10px; opacity:0; color:var(--cyan);"></span>
 </div>
         
