@@ -622,33 +622,27 @@ document.getElementById("logoShare").addEventListener("click", async () => {
 
     
 <script>
-// Simple "Copy Page Link" with nice feedback
-document.getElementById('copyLinkBtn').addEventListener('click', async () => {
-  await navigator.clipboard.writeText(location.href);
-  const feedback = document.getElementById('copyFeedback');
-  feedback.style.opacity = '1';
-  setTimeout(() => feedback.style.opacity = '0', 2000);
-});
   
+// Perfect "Copy Link" – works everywhere, no jump, no errors
+document.getElementById('copyLinkBtn')?.addEventListener('click', async () => {
+  const url = location.href;
+  const feedback = document.getElementById('copyFeedback');
+
   try {
     await navigator.clipboard.writeText(url);
-    feedback.textContent = 'Copied!';
-    feedback.style.opacity = '1';
-    setTimeout(() => {
-      feedback.style.opacity = '0';
-    }, 2000);
   } catch (err) {
-    // Fallback for older browsers
-    const textArea = document.createElement('textarea');
-    textArea.value = url;
-    document.body.appendChild(textArea);
-    textArea.select();
+    // Fallback for very old browsers (almost never needed today)
+    const textarea = document.createElement('textarea');
+    textarea.value = url;
+    document.body.appendChild(textarea);
+    textarea.select();
     document.execCommand('copy');
-    document.body.removeChild(textArea);
-    feedback.textContent = 'Copied!';
-    feedback.style.opacity = '1';
-    setTimeout(() => feedback.style.opacity = '0', 2000);
+    document.body.removeChild(textarea);
   }
+
+  // Show feedback (text is already "Copied!" in HTML, just fade in/out)
+  feedback.style.opacity = '1';
+  setTimeout(() => feedback.style.opacity = '0', 2000);
 });
 </script>
 
