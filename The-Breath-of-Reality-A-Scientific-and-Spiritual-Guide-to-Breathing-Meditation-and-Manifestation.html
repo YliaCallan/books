@@ -230,22 +230,35 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center;
+  gap: 2rem;
+  flex-wrap: wrap;           /* Allows wrapping on small screens */
+  margin: 1rem 0;
   width: 100%;
-  gap: 1rem;
 }
 
-.social-row button.copy-link {
-  align-self: center;
+.social-row a {
+  color: var(--cyan);
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
-
-/* Make sure BUTTONS also get centered (this was missing!) */
-.social-row button {
-  margin: 0 auto !important;
-  display: block !important;
+.social-row a:hover {
+  opacity: 0.8;
+  text-shadow: var(--cyan-glow);
+  transform: translateY(-2px);
 }
 
+/* Optional: tighter spacing on very small phones */
+@media (max-width: 480px) {
+  .social-row {
+    gap: 1.5rem;
+    font-size: 1rem;
+  }
+}
+        
+        
 .copy-link {
   background: transparent;
   border: 2px solid var(--cyan);
@@ -256,21 +269,17 @@
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.95rem;
-  white-space: nowrap;
+  display: block; 
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .copy-link:hover {
   background: var(--cyan);
   color: #000;
-  box-shadow: 0 0 20px rgba(0,234,255,0.5);
+  box-shadow: 0 0 20px rgba(0, 234, 255, 0.5);
 }
 
-@media (max-width: 768px) {
-  .copy-link {
-    width: 100%;
-    max-width: 220px;
-  }
-}
         
     </style>
 </head>
