@@ -276,61 +276,32 @@
             gap: 2rem;
         }
         
-/* ========= RELATED BOOKS / GALLERY – PERFECT ON MOBILE & DESKTOP ========= */
+/* FORCE-FIX FOR MOBILE – NO CROP, NO STRETCH, FULL COVER EVERYWHERE */
+.book-card img {
+  width: 100% !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 75vh !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  aspect-ratio: 2 / 3 !important;
+  background: #000 !important;
+  padding: 14px 10px 10px !important;
+  box-sizing: border-box !important;
+  display: block !important;
+  border-bottom: 2px solid var(--cyan) !important;
+  image-rendering: -webkit-optimize-contrast; /* extra sharp on iPhone */
+}
+
+/* Make sure the card container doesn’t force size */
 .book-card {
+  width: 100% !important;
+  max-width: 320px !important;
+  margin: 0 auto !important;
   border-radius: 16px;
   overflow: hidden;
   background: rgba(0,234,255,0.03);
   transition: var(--transition);
-  text-decoration: none;
-  display: block;
-  width: 100%;
-  max-width: 300px;           /* prevents huge cards on large screens */
-  margin: 0 auto;             /* centers each card in its grid cell */
-}
-
-.book-card:hover {
-  transform: translateY(-10px);
-  box-shadow: var(--cyan-glow);
-}
-
-/* THE KEY FIX: full cover, no crop, no stretch – works everywhere */
-.book-card img {
-  width: 100%;
-  height: auto !important;           /* override any forced height */
-  max-height: 70vh;                  /* prevents giant images on mobile */
-  aspect-ratio: 2 / 3;               /* locks perfect book ratio */
-  object-fit: contain !important;    /* THIS is what stops cropping */
-  background: #000;
-  padding: 12px 8px 8px;
-  box-sizing: border-box;
-  display: block;
-  border-bottom: 2px solid var(--cyan);
-}
-
-.book-card h3 {
-  padding: 1rem 1rem 1.3rem;
-  margin: 0;
-  text-align: center;
-  color: var(--cyan);
-  font-size: 1.15rem;
-  font-weight: 600;
-  text-shadow: 0 0 10px rgba(0,234,255,0.4);
-}
-
-/* Optional: stronger glow on hover */
-.book-card:hover h3 {
-  text-shadow: 0 0 18px rgba(0,234,255,0.9);
-}
-
-        .related-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 2rem;
-  padding: 2rem 1rem;
-  max-width: 1400px;
-  margin: 0 auto;
-  justify-items: center;          /* ← THIS centers cards perfectly on mobile */
 }
 
         /* Footer */
