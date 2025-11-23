@@ -269,36 +269,19 @@
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.95rem;
-  display: block; 
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .copy-link:hover {
   background: var(--cyan);
   color: #000;
-  box-shadow: 0 0 20px rgba(0, 234, 255, 0.5);
+  box-shadow: 0 0 20px rgba(0,234,255,0.5);
 }
 
-        /* Center the Copy Link Button */
-.copy-link-row,
-.social-row:has(#copyLinkBtn) {
-  justify-content: center !important;
-  align-items: center !important;
-  margin: 1rem auto !important;
-}
-
-#copyLinkBtn {
-  margin: 0 auto !important;  /* Fallback for non-flex parents */
-  display: block !important;  /* Makes margin auto work */
-  text-align: center !important;
-}
-
-/* Mobile: Ensure it stacks nicely */
+/* Mobile responsive */
 @media (max-width: 768px) {
-  #copyLinkBtn {
-    width: 100% !important;
-    max-width: 200px !important;
+  .copy-link {
+    width: 100%;
+    max-width: 220px;
   }
 }
 
@@ -458,12 +441,12 @@
     </div>
 
     <!-- NEW: Simple Copy Link button -->
-    <div class="social-row copy-link-row">
-      <button id="copyLinkBtn" class="copy-link">
-        Copy Link 🔗
-      </button>
-      <span id="copyFeedback" style="margin-left: 10px; opacity: 0; color: var(--cyan); font-size: 0.9rem;"></span>
-    </div>
+
+<div class="social-row">
+  <button id="copyLinkBtn" class="copy-link">Copy Page Link 🔗</button>
+  <span id="copyFeedback" style="margin-left:10px; opacity:0; color:var(--cyan);"></span>
+</div>
+        
     <p>© <span id="year">2025</span> Ylia Callan. All rights reserved.</p>
 </footer>
 
