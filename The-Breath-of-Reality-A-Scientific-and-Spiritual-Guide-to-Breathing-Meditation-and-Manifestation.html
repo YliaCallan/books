@@ -259,6 +259,27 @@
 }
         
         
+.copy-link-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;        /* needed for absolute positioning of feedback */
+  margin: 1rem 0;
+}
+
+#copyFeedback {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -28px;             /* puts "Copied!" below the button */
+  color: var(--cyan);
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
 .copy-link {
   background: transparent;
   border: 2px solid var(--cyan);
@@ -269,15 +290,12 @@
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.95rem;
-  display: block; 
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .copy-link:hover {
   background: var(--cyan);
   color: #000;
-  box-shadow: 0 0 20px rgba(0, 234, 255, 0.5);
+  box-shadow: 0 0 20px rgba(0,234,255,0.5);
 }
 
         
@@ -437,9 +455,9 @@
 
     <!-- NEW: Simple Copy Link button -->
 
-<div class="social-row">
-  <button id="copyLinkBtn" class="copy-link">Copy Link 🔗</button>
-  <span id="copyFeedback" style="margin-left:10px; opacity:0; color:var(--cyan);"></span>
+      <div class="social-row copy-link-row">
+  <button id="copyLinkBtn" class="copy-link">Copy Link🔗</button>
+  <span id="copyFeedback">Copied!</span>
 </div>
         
     <p>© <span id="year">2025</span> Ylia Callan. All rights reserved.</p>
@@ -604,30 +622,27 @@ document.getElementById("logoShare").addEventListener("click", async () => {
 
     
 <script>
-// Simple "Copy Page Link" with nice feedback
-document.getElementById('copyLinkBtn').addEventListener('click', async () => {
-  const url = window.location.href;
-  const feedback = document.getElementById('copyFeedback');
   
+// Perfect "Copy Link" – works everywhere, no jump, no errors
+document.getElementById('copyLinkBtn')?.addEventListener('click', async () => {
+  const url = location.href;
+  const feedback = document.getElementById('copyFeedback');
+
   try {
     await navigator.clipboard.writeText(url);
-    feedback.textContent = 'Copied!';
-    feedback.style.opacity = '1';
-    setTimeout(() => {
-      feedback.style.opacity = '0';
-    }, 2000);
   } catch (err) {
-    // Fallback for older browsers
-    const textArea = document.createElement('textarea');
-    textArea.value = url;
-    document.body.appendChild(textArea);
-    textArea.select();
+    // Fallback for very old browsers (almost never needed today)
+    const textarea = document.createElement('textarea');
+    textarea.value = url;
+    document.body.appendChild(textarea);
+    textarea.select();
     document.execCommand('copy');
-    document.body.removeChild(textArea);
-    feedback.textContent = 'Copied!';
-    feedback.style.opacity = '1';
-    setTimeout(() => feedback.style.opacity = '0', 2000);
+    document.body.removeChild(textarea);
   }
+
+  // Show feedback (text is already "Copied!" in HTML, just fade in/out)
+  feedback.style.opacity = '1';
+  setTimeout(() => feedback.style.opacity = '0', 2000);
 });
 </script>
 
