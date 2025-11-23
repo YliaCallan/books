@@ -226,7 +226,20 @@
   font-size: 1.1rem;
 }
 
-.social-row button.copy-link { margin: 0 auto; }
+.social-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+  width: 100%;
+}
+
+/* ONE LINE TO RULE THEM ALL */
+.social-row button.copy-link {
+  margin: 0 auto;
+}
 
 /* Make sure BUTTONS also get centered (this was missing!) */
 .social-row button {
