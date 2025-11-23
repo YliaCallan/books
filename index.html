@@ -276,13 +276,17 @@
             gap: 2rem;
         }
         
+/* ========= RELATED BOOKS / GALLERY – PERFECT ON MOBILE & DESKTOP ========= */
 .book-card {
   border-radius: 16px;
   overflow: hidden;
   background: rgba(0,234,255,0.03);
   transition: var(--transition);
-  text-decoration: none;           /* important: makes whole card clickable */
+  text-decoration: none;
   display: block;
+  width: 100%;
+  max-width: 300px;           /* prevents huge cards on large screens */
+  margin: 0 auto;             /* centers each card in its grid cell */
 }
 
 .book-card:hover {
@@ -290,16 +294,17 @@
   box-shadow: var(--cyan-glow);
 }
 
-/* THE MAGIC: show full 400×600 cover, no cropping */
+/* THE KEY FIX: full cover, no crop, no stretch – works everywhere */
 .book-card img {
   width: 100%;
-  height: auto;                    /* let the browser keep the original ratio */
-  max-width: 100%;
-  display: block;
-  object-fit: contain;             /* THIS stops cropping */
-  background: #000;                /* black background so no white gaps */
-  padding: 12px 8px 8px;           /* small inner margin so cover doesn’t touch edges */
+  height: auto !important;           /* override any forced height */
+  max-height: 70vh;                  /* prevents giant images on mobile */
+  aspect-ratio: 2 / 3;               /* locks perfect book ratio */
+  object-fit: contain !important;    /* THIS is what stops cropping */
+  background: #000;
+  padding: 12px 8px 8px;
   box-sizing: border-box;
+  display: block;
   border-bottom: 2px solid var(--cyan);
 }
 
@@ -308,14 +313,24 @@
   margin: 0;
   text-align: center;
   color: var(--cyan);
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   font-weight: 600;
   text-shadow: 0 0 10px rgba(0,234,255,0.4);
-  transition: all 0.3s ease;
 }
 
+/* Optional: stronger glow on hover */
 .book-card:hover h3 {
-  text-shadow: 0 0 16px rgba(0,234,255,0.8);
+  text-shadow: 0 0 18px rgba(0,234,255,0.9);
+}
+
+        .related-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 2rem;
+  padding: 2rem 1rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  justify-items: center;          /* ← THIS centers cards perfectly on mobile */
 }
 
         /* Footer */
