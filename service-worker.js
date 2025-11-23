@@ -1,11 +1,11 @@
 const CACHE_NAME = 'ylia-books-pwa-v2';
 const OFFLINE_URLS = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/install-pwa.js',
-  '/pwa-icons/icon-192.png',
-  '/pwa-icons/icon-512.png'
+  '/books/',
+  '/books/index.html',
+  '/books/manifest.json',
+  '/books/install-pwa.js',
+  '/books/pwa-icons/icon-192.png',
+  '/books/pwa-icons/icon-512.png'
 ];
 
 // Install SW
