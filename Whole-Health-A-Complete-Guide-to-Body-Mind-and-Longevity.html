@@ -335,9 +335,7 @@
                 <a href="https://yliacallan.github.io/books/#catalogue">Catalogue</a>
                 <a href="https://yliacallan.github.io/books/#socials">Contact</a>
                 <a href="https://music.youtube.com/channel/UCpA_L99T91Wgousjvq_jZDw" target="_blank" rel="noopener">Music🎼</a>
-                <a href="javascript:void(0)" class="install-trigger" onclick="triggerInstall()" style="color:#00eaff; font-weight:600;">
-  App 📱
-</a>
+                <a href="#" id="installAppLink1" class="install-trigger" style="color:#00eaff; font-weight:600;"> App 📱</a>
             </div>
         <div class="hamburger" id="hamburger">
             <span></span><span></span><span></span>
@@ -468,7 +466,7 @@
     <!-- LINE 2 – Music + App + Install + Home -->
     <div class="social-row">
       <a href="https://music.youtube.com/channel/UCpA_L99T91Wgousjvq_jZDw" target="_blank" rel="noopener">Music 🎼</a>
-      <a href="javascript:void(0)" class="install-trigger" onclick="triggerInstall()">App 📱</a>
+      <a href="#" id="installAppLink2" class="install-trigger">App 📱</a>
       <a href="https://yliacallan.github.io/books/">Home ♾️</a>
     </div>
 
@@ -681,6 +679,22 @@ document.querySelectorAll('#navLinks a').forEach(link => {
     console.log('Menu closed!');  // Confirm in console
   });
 });
+
+function setupInstallLinks() {
+  const links = document.querySelectorAll(".install-trigger");
+
+  links.forEach(link => {
+    link.addEventListener("click", function(e) {
+      e.preventDefault();
+      triggerInstall();
+    });
+  });
+}
+
+document.addEventListener("DOMContentLoaded", setupInstallLinks);
+
+
+        
 </script>
     
 </body> 
