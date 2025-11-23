@@ -97,37 +97,9 @@
         text-align: center;
         }
 
-/* PERFECT PDF VIEWER ON IPHONE — NO OVERFLOW, FULL WIDTH, CLEAN UX */
-.viewer-container {
-  width: 100% !important;
-  max-width: 100vw !important;
-  margin: 2rem 0 !important;
-  padding: 0 !important;
-  background: #111;
-  border: 2px solid rgba(0,234,255,.2);
-  border-radius: 16px;
-  overflow: hidden;
-  box-sizing: border-box;
-}
-
-.viewer-container iframe {
-  width: 100vw !important;
-  height: 78vh !important;
-  border: none !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  display: block !important;
-  /* This is the magic line that kills horizontal scroll on iPhone */
-  transform: translateX(-50%);
-  margin-left: 50% !important;
-}
-
-/* Fine-tune for small iPhones */
-@media (max-width: 480px) {
-  .viewer-container iframe {
-    height: 72vh !important;
-  }
-}
+        .viewer-container{background:#111;border:2px solid rgba(0,234,255,.2);border-radius:16px;margin:2rem auto;max-width:1000px;overflow:hidden}
+        .viewer-container iframe{width:100%;height:80vh;border:none}
+        @media(max-width:768px){.viewer-container iframe{height:70vh}}
 
         .actions{padding:2rem 1rem;max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
         .btn{display:flex;align-items:center;justify-content:center;gap:12px;padding:1rem 1.5rem;background:rgba(0,234,255,.1);border:2px solid var(--cyan);color:var(--cyan);font-weight:600;border-radius:12px;transition:var(--transition)}
