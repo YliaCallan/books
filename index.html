@@ -276,28 +276,47 @@
             gap: 2rem;
         }
         
-        .book-card {
-            border-radius: 16px;
-            overflow: hidden;
-            background: rgba(0,234,255,0.03);
-            transition: var(--transition);
-        }
-        .book-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--cyan-glow);
-        }
-        .book-card img {
-            width: 100%;
-            height: 320px;
-            object-fit: cover;
-            border-bottom: 2px solid var(--cyan);
-        }
-        .book-card h3 {
-            padding: 1rem;
-            text-align: center;
-            color: var(--cyan);
-            font-size: 1.2rem;
-        }
+.book-card {
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(0,234,255,0.03);
+  transition: var(--transition);
+  text-decoration: none;           /* important: makes whole card clickable */
+  display: block;
+}
+
+.book-card:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--cyan-glow);
+}
+
+/* THE MAGIC: show full 400×600 cover, no cropping */
+.book-card img {
+  width: 100%;
+  height: auto;                    /* let the browser keep the original ratio */
+  max-width: 100%;
+  display: block;
+  object-fit: contain;             /* THIS stops cropping */
+  background: #000;                /* black background so no white gaps */
+  padding: 12px 8px 8px;           /* small inner margin so cover doesn’t touch edges */
+  box-sizing: border-box;
+  border-bottom: 2px solid var(--cyan);
+}
+
+.book-card h3 {
+  padding: 1rem 1rem 1.3rem;
+  margin: 0;
+  text-align: center;
+  color: var(--cyan);
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-shadow: 0 0 10px rgba(0,234,255,0.4);
+  transition: all 0.3s ease;
+}
+
+.book-card:hover h3 {
+  text-shadow: 0 0 16px rgba(0,234,255,0.8);
+}
 
         /* Footer */
         footer {
