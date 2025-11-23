@@ -365,7 +365,35 @@
         .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:2rem}
         .related-card{overflow:hidden;border-radius:16px;background:rgba(0,234,255,.03);transition:var(--transition)}
         .related-card:hover{box-shadow:var(--cyan-glow);transform:translateY(-8px)}
-        .related-card img{height:300px;object-fit:cover;width:100%}
+
+        /* FIX FOR BOOK PAGES – RELATED GALLERY (NO CROP, FULL COVER ON MOBILE) */
+.related-card img {
+  width: 100% !important;
+  height: auto !important;
+  max-height: 75vh !important;
+  object-fit: contain !important;
+  background: #000 !important;
+  padding: 14px 10px 10px !important;
+  box-sizing: border-box !important;
+  border-bottom: 2px solid var(--cyan) !important;
+  display: block !important;
+}
+
+/* Make sure the card container doesn’t force size */
+.related-card {
+  width: 100% !important;
+  max-width: 320px !important;
+  margin: 0 auto !important;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(0,234,255,0.03);
+  transition: var(--transition);
+}
+
+.related-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--cyan-glow);
+}
 
         footer{padding:3rem 1rem;text-align:center;border-top:1px solid rgba(0,234,255,.15)}
         .socials{display:flex;gap:1.5rem;justify-content:center;margin:1.5rem 0}
