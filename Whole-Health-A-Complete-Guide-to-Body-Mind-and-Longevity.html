@@ -607,9 +607,9 @@ document.getElementById("logoShare").addEventListener("click", async () => {
 </button>
 
 <!-- PWA Core -->
-<link rel="manifest" href="./manifest.json">
-<link rel="icon" href="./pwa-icons/favicon.ico" type="image/x-icon">
-<script src="./install-pwa.js?v=8" defer></script> <!-- ?v=8 forces refresh -->
+<link rel="manifest" href="/books/manifest.json">
+<link rel="icon" href="/books/pwa-icons/favicon.ico" type="image/x-icon">
+<script src="/books/install-pwa.js?v=8" defer></script> <!-- ?v=8 forces refresh -->
 <script>
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./service-worker.js?v=8')
